@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Game</title>
+    <link rel="stylesheet" href="css/style.css?ver=1">
+</head>
+<body>
+    <!-- Main Menu -->
+    <div id="main-menu">
+        <button id="new-game">New Game</button>
+        <button id="continue-game">Continue</button>
+        <button id="settings">Settings</button>
+    </div>
+
+    <!-- Settings Menu -->
+    <div id="settings-menu" style="display: none;">
+        <button id="return-to-menu">Return</button>
+    </div>
+
+    <!-- Game Container (Initially Hidden) -->
+    <div id="red-dot-counter">Red Dots Collected: 0</div>
+
+    <div id="game-container" style="display: none;">
+        <!-- Canvas for Sprite Animation -->
+        <canvas id="gameCanvas" width="400" height="400"></canvas>
+        <div class="interactive-dot" style="top: 10px; left: 10px;"></div>
+        <div class="interactive-dot" style="top: 10px; left: 570px;"></div>
+        <div class="interactive-dot" style="top: 570px; left: 10px;"></div>
+        <div class="interactive-dot" style="top: 570px; left: 570px;"></div>
+    </div>
+
+    <!-- Pause and Save Menus -->
+    <div id="pause-menu" style="display: none;">
+        <button id="continue-game">Continue</button>
+        <button id="save-game">Save</button>
+        <button id="save-and-exit-game">Save and Exit</button>
+        <button id="exit-game">Exit Without Saving</button>
+    </div>
+
+    <div id="save-select-menu" style="display: none;">
+        <div id="saved-games-list"></div>
+        <button id="return-to-main-menu">Return</button>
+    </div>
+    
+    <!-- Dialogue Box -->
+    <div id="dialogue-box" style="display: none;">
+        <p id="dialogue-text"></p>
+        <button id="option1">Option 1</button>
+        <button id="option2">Option 2</button>
+    </div>
+
+    <script src="scripts/game.js?ver=1"></script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dot Game</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="game-container">
+    <div id="player"></div>
+    <!-- Interactive dots -->
+    <div class="interactive-dot" style="top: 10px; left: 10px;"></div>
+    <div class="interactive-dot" style="top: 10px; left: 570px;"></div>
+    <div class="interactive-dot" style="top: 570px; left: 10px;"></div>
+    <div class="interactive-dot" style="top: 570px; left: 570px;"></div>
+  </div>
+    <script src="scripts/game.js"></script>
+</body>
+</html>

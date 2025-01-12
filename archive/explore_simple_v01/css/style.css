@@ -1,0 +1,170 @@
+/* ---------------------------------------
+   General Styling
+--------------------------------------- */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif; /* Consistent font across menus */
+}
+
+/* ---------------------------------------
+   Game Container
+--------------------------------------- */
+#game-container {
+    width: 600px;
+    height: 600px;
+    background-color: black;
+    border: 2px solid white;
+    position: relative;
+    overflow: hidden;
+}
+
+/* ---------------------------------------
+   Player Sprite
+--------------------------------------- */
+#player {
+    width: 64px; /* Match sprite dimensions */
+    height: 64px;
+    background: url("../images/player_v2.png") no-repeat center center;
+    background-size: cover;
+    position: absolute; /* Position inside game container */
+}
+
+/* ---------------------------------------
+   Interactive Dots
+--------------------------------------- */
+.interactive-dot {
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 50%; /* Circular shape */
+    position: absolute; /* Position inside game container */
+    box-sizing: border-box; /* Include borders in dimensions */
+    margin: 0;
+    padding: 0;
+}
+
+.red-dot {
+    width: 20px;
+    height: 20px;
+    background-color: red;
+    border-radius: 50%; /* Circular shape */
+    position: absolute;
+}
+
+/* ---------------------------------------
+   Menus
+--------------------------------------- */
+#main-menu, #settings-menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #333;
+    color: white;
+}
+
+#main-menu button, #settings-menu button {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #444; /* Button background */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease; /* Add hover effect */
+}
+
+#main-menu button:hover, #settings-menu button:hover {
+    background-color: #555; /* Darker shade on hover */
+}
+
+#pause-menu, #save-select-menu {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 20px;
+    border: 2px solid white;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+#saved-games-list button {
+    background-color: #444;
+    color: white;
+    border: none;
+    padding: 10px;
+    margin: 5px;
+    width: 200px;
+    cursor: pointer;
+}
+
+#saved-games-list button:hover {
+    background-color: #555;
+}
+
+/* ---------------------------------------
+   Dialogue Box
+--------------------------------------- */
+#dialogue-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    padding: 20px;
+    background-color: white;
+    border: 2px solid black;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    display: none; /* Hidden by default */
+}
+
+#dialogue-box button {
+    margin: 5px;
+    padding: 10px;
+    cursor: pointer;
+    background-color: #eee; /* Button background */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+#dialogue-box button:hover {
+    background-color: #ddd; /* Lighter shade on hover */
+}
+
+/* ---------------------------------------
+   Game Display
+--------------------------------------- */
+
+#red-dot-counter {
+    position: relative; /* Relative to parent container */
+    margin-bottom: 10px; /* Add spacing below the counter */
+    color: black; /* Change text color to black */
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+/* ---------------------------------------
+   Game Objects
+--------------------------------------- */
+
+#door {
+    border: 2px solid white;
+    border-radius: 4px;
+}
