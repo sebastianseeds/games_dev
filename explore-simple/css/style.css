@@ -8,7 +8,7 @@ body {
     height: 100vh;
     margin: 0;
     background-color: #f0f0f0;
-    font-family: Arial, sans-serif; /* Consistent font across menus */
+    font-family: Arial, sans-serif;
 }
 
 /* ---------------------------------------
@@ -21,17 +21,16 @@ body {
     border: 2px solid white;
     position: relative;
     overflow: hidden;
+    display: none; /* Hidden by default, visible when game starts */
 }
 
 /* ---------------------------------------
    Player Sprite
 --------------------------------------- */
 #player {
-    width: 64px; /* Match sprite dimensions */
-    height: 64px;
-    background: url("../images/player_v2.png") no-repeat center center;
-    background-size: cover;
-    position: absolute; /* Position inside game container */
+    width: 66px; /* Match frame dimensions in JavaScript */
+    height: 100px;
+    position: absolute; /* Allows movement within the game container */
 }
 
 /* ---------------------------------------
@@ -42,18 +41,28 @@ body {
     height: 20px;
     background-color: white;
     border: 2px solid black;
-    border-radius: 50%; /* Circular shape */
-    position: absolute; /* Position inside game container */
-    box-sizing: border-box; /* Include borders in dimensions */
-    margin: 0;
-    padding: 0;
+    border-radius: 50%;
+    position: absolute;
+    box-sizing: border-box;
 }
 
 .red-dot {
     width: 20px;
     height: 20px;
     background-color: red;
-    border-radius: 50%; /* Circular shape */
+    border-radius: 50%;
+    position: absolute;
+}
+
+/* ---------------------------------------
+   Game Objects
+--------------------------------------- */
+#door {
+    width: 40px;
+    height: 40px;
+    background-color: blue;
+    border: 2px solid white;
+    border-radius: 4px;
     position: absolute;
 }
 
@@ -75,15 +84,15 @@ body {
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
-    background-color: #444; /* Button background */
+    background-color: #444;
     color: white;
     border: none;
     border-radius: 4px;
-    transition: background-color 0.3s ease; /* Add hover effect */
+    transition: background-color 0.3s ease;
 }
 
 #main-menu button:hover, #settings-menu button:hover {
-    background-color: #555; /* Darker shade on hover */
+    background-color: #555;
 }
 
 #pause-menu, #save-select-menu {
@@ -96,7 +105,7 @@ body {
     padding: 20px;
     border: 2px solid white;
     border-radius: 10px;
-    display: flex;
+    display: none; /* Hidden by default */
     flex-direction: column;
     align-items: center;
     gap: 10px;
@@ -110,6 +119,7 @@ body {
     margin: 5px;
     width: 200px;
     cursor: pointer;
+    border-radius: 4px;
 }
 
 #saved-games-list button:hover {
@@ -131,40 +141,54 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     text-align: center;
     display: none; /* Hidden by default */
+    z-index: 100; /* Ensure it appears above other elements */
 }
 
 #dialogue-box button {
     margin: 5px;
     padding: 10px;
     cursor: pointer;
-    background-color: #eee; /* Button background */
+    background-color: #eee;
     border: 1px solid #ccc;
     border-radius: 4px;
     transition: background-color 0.3s ease;
 }
 
 #dialogue-box button:hover {
-    background-color: #ddd; /* Lighter shade on hover */
+    background-color: #ddd;
 }
 
 /* ---------------------------------------
    Game Display
 --------------------------------------- */
-
 #red-dot-counter {
-    position: relative; /* Relative to parent container */
-    margin-bottom: 10px; /* Add spacing below the counter */
-    color: black; /* Change text color to black */
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
     font-size: 16px;
     font-family: Arial, sans-serif;
     text-align: center;
+    display: none; /* Hidden until the game starts */
 }
 
 /* ---------------------------------------
-   Game Objects
+   Transitions and Animations
 --------------------------------------- */
+/* Add hover or transition effects to improve UX */
+button {
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
 
-#door {
-    border: 2px solid white;
-    border-radius: 4px;
+button:hover {
+    transform: scale(1.05);
+}
+
+/* ---------------------------------------
+   Fixes and Adjustments
+--------------------------------------- */
+/* Ensure the player sprite displays correctly */
+canvas {
+    background-color: transparent; /* Ensure the canvas blends with the game container */
 }

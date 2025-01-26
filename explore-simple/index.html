@@ -19,19 +19,20 @@
         <button id="return-to-menu">Return</button>
     </div>
 
-    <!-- Game Container (Initially Hidden) -->
-    <div id="red-dot-counter">Red Dots Collected: 0</div>
+    <!-- index.html -->
+    <audio id="collect-sound" src="sounds/red-dot-ding.mp3" preload="auto"></audio>
+    <audio id="door-sound" src="sounds/door-sustain.mp3" preload="auto"></audio>
 
+    <!-- Red Dot Counter -->
+    <div id="red-dot-counter" style="display: none;">Red Dots Collected: 0</div>
+
+    <!-- Game Container -->
     <div id="game-container" style="display: none;">
-        <!-- Canvas for Sprite Animation -->
-        <canvas id="gameCanvas" width="400" height="400"></canvas>
-        <div class="interactive-dot" style="top: 10px; left: 10px;"></div>
-        <div class="interactive-dot" style="top: 10px; left: 570px;"></div>
-        <div class="interactive-dot" style="top: 570px; left: 10px;"></div>
-        <div class="interactive-dot" style="top: 570px; left: 570px;"></div>
+        <!-- Canvas for Sprite Animations -->
+        <canvas id="gameCanvas" width="600" height="600"></canvas>
     </div>
 
-    <!-- Pause and Save Menus -->
+    <!-- Pause Menu -->
     <div id="pause-menu" style="display: none;">
         <button id="continue-game">Continue</button>
         <button id="save-game">Save</button>
@@ -39,6 +40,7 @@
         <button id="exit-game">Exit Without Saving</button>
     </div>
 
+    <!-- Save Select Menu -->
     <div id="save-select-menu" style="display: none;">
         <div id="saved-games-list"></div>
         <button id="return-to-main-menu">Return</button>
