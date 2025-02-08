@@ -38,8 +38,9 @@ if (returnFromSettingsButton) {
 }
 
 // Sounds
-const collectSound = document.getElementById("collect-sound"); // Reference the audio element
-const doorSound = document.getElementById("door-sound"); // Reference the audio element
+const collectSound = document.getElementById("collect-sound"); // Reference the audio element in index
+const doorSound = document.getElementById("door-sound");
+const damageSound = document.getElementById("damage-sound");
 
 // Sprite
 const FRAME_WIDTH = 66; // Sprite frame width
@@ -97,7 +98,8 @@ const weapons = {
 	offsetY_left: 50,
 	offsetY_right: 50,
 	offsetY_up: 0,
-	offsetY_down: -5,  
+	offsetY_down: -5,
+	damage: 1,
     },
     knife: {
         width_v: 20,
@@ -111,7 +113,8 @@ const weapons = {
 	offsetY_left: 50,
 	offsetY_right: 50,
 	offsetY_up: 20,
-	offsetY_down: -5,  
+	offsetY_down: -5,
+	damage: 2,
     },
     broadsword: {
 	width_v: 30,
@@ -125,7 +128,8 @@ const weapons = {
 	offsetY_left: 50,
 	offsetY_right: 50,
 	offsetY_up: 40,
-	offsetY_down: -5,  
+	offsetY_down: -5,
+	damage: 4,
     },
     spear: {
 	width_v: 10,
@@ -139,7 +143,8 @@ const weapons = {
 	offsetY_left: 50,
 	offsetY_right: 50,
 	offsetY_up: 70,
-	offsetY_down: -5,  
+	offsetY_down: -5,
+	damage: 3,
     },
     whip: {
 	width_v: 5,
@@ -153,12 +158,23 @@ const weapons = {
 	offsetY_left: 50,
 	offsetY_right: 50,
 	offsetY_up: 100,
-	offsetY_down: -5,  
+	offsetY_down: -5,
+	damage: 2,
     },
 };
 
 // Red Box (Weapon) Properties
-let currentWeapon = weapons.fist; // Default weapon
+let currentWeapon = weapons.spear; // Default weapon
+
+// Different kinds of enemies
+const dotTypes = [
+    { color: "red", hp: 2, size: 20 },    // Smallest & weakest
+    { color: "blue", hp: 3, size: 22 },
+    { color: "green", hp: 4, size: 24 },
+    { color: "yellow", hp: 5, size: 26 },
+    { color: "purple", hp: 6, size: 28 }, // Largest & strongest
+];
+
 
 document.addEventListener("click", (event) => {
     console.log("Clicked element:", event.target);
@@ -379,14 +395,14 @@ function triggerRedSquare() {
     let squareX = playerX;
     let squareY = playerY;
 
-    // Determine if attack is vertical (up/down) or horizontal (left/right)
+    // Determine attack orientation
     let isVertical = currentRow === 0 || currentRow === 1;
     let weaponWidth = isVertical ? currentWeapon.width_v : currentWeapon.width_h;
     let weaponHeight = isVertical ? currentWeapon.height_v : currentWeapon.height_h;
+    let weaponDamage = currentWeapon.damage;
 
     // Get the correct offset values based on direction
     let offsetX, offsetY;
-
     if (currentRow === 0) { // Facing down
         offsetX = currentWeapon.offsetX_down;
         offsetY = currentWeapon.offsetY_down;
@@ -416,22 +432,38 @@ function triggerRedSquare() {
     redSquare.style.height = `${weaponHeight}px`;
     redSquare.style.display = "block";
 
-    // Check for collisions
+    // Check for collision with red dots
     redDots = redDots.filter(dot => {
         if (isCollidingWithSquare(dot, squareX, squareY, weaponWidth, weaponHeight)) {
-            dot.remove();
-            redDotCollected++;
-            updateRedDotCounter();
+            let dotHP = parseInt(dot.dataset.hp, 10); // Get HP value
+            dotHP -= weaponDamage; // Reduce HP by 1
+            dot.dataset.hp = dotHP; // Update stored HP
 
-            // Play the red dot collection sound
-            try {
-                collectSound.currentTime = 0;
-                collectSound.play();
-            } catch (error) {
-                console.error("Error playing collect sound:", error);
+            if (dotHP <= 0) {
+                // Play destruction sound
+                try {
+                    collectSound.currentTime = 0;
+                    collectSound.play();
+                } catch (error) {
+                    console.error("Error playing collect sound:", error);
+                }
+
+                // Remove the red dot
+                dot.remove();
+                redDotCollected++;
+                updateRedDotCounter();
+                return false; // Remove from array
+            } else {
+                // Play damage sound only if the red dot still has HP left
+                try {
+                    damageSound.currentTime = 0;
+                    damageSound.play();
+                } catch (error) {
+                    console.error("Error playing damage sound:", error);
+                }
             }
 
-            return false;
+            return true; // Keep dot if it still has HP
         }
         return true;
     });
@@ -445,19 +477,20 @@ function triggerRedSquare() {
 
 
 
+
 function isCollidingWithSquare(dot, squareX, squareY, weaponWidth, weaponHeight) {
     const dotX = parseFloat(dot.style.left);
     const dotY = parseFloat(dot.style.top);
-    const dotWidth = parseFloat(dot.style.width) || 20;
-    const dotHeight = parseFloat(dot.style.height) || 20;
+    const dotSize = parseFloat(dot.dataset.size) || 20; // Default to 20 if missing
 
     return (
-        squareX < dotX + dotWidth &&
+        squareX < dotX + dotSize &&
         squareX + weaponWidth > dotX &&
-        squareY < dotY + dotHeight &&
+        squareY < dotY + dotSize &&
         squareY + weaponHeight > dotY
     );
 }
+
 
 
 // ---------------------------------------
@@ -467,28 +500,45 @@ function createRedDots() {
     redDots.forEach(dot => dot.remove()); // Remove existing dots
     redDots = []; // Clear array
 
-    for (let i = 0; i < redDotCount; i++) {
+    dotTypes.forEach(dotType => {
         const redDot = document.createElement("div");
         redDot.classList.add("red-dot");
 
-        // Set the dot's size dynamically (20x20 by default)
-        redDot.style.width = "20px";
-        redDot.style.height = "20px";
-	
+        // Assign unique color, HP, and size
+        redDot.style.backgroundColor = dotType.color;
+        redDot.style.width = `${dotType.size}px`;
+        redDot.style.height = `${dotType.size}px`;
+        redDot.dataset.hp = dotType.hp.toString(); // Store HP
+        redDot.dataset.size = dotType.size.toString(); // Store size
+
+        // Randomize position
         let position;
+        let attempts = 0;
         do {
             position = {
-                x: Math.random() * (gameWidth - 20), // Ensure dots fit within bounds
-                y: Math.random() * (gameHeight - 20),
+                x: Math.random() * (gameWidth - dotType.size),
+                y: Math.random() * (gameHeight - dotType.size),
             };
-        } while (!isPositionValid(position)); // Check spacing between dots
+            attempts++;
+            if (attempts > 50) {
+                console.warn(`Failed to place ${dotType.color} dot after 50 tries, skipping.`);
+                break;
+            }
+        } while (!isPositionValid(position));
 
-        redDot.style.left = `${position.x}px`;
-        redDot.style.top = `${position.y}px`;
-        gameContainer.appendChild(redDot);
-        redDots.push(redDot); // Store the dot in the array
-    }
+        // Apply position
+        if (isPositionValid(position)) {
+            redDot.style.left = `${position.x}px`;
+            redDot.style.top = `${position.y}px`;
+            gameContainer.appendChild(redDot);
+            redDots.push(redDot);
+        }
+    });
 }
+
+
+
+
 
 function checkInteractions() {
     // Check collision with red dots
@@ -569,6 +619,20 @@ function isColliding(object) {
 
 
 function isPositionValid(position) {
+    const playerStartX = gameWidth / 2 - FRAME_WIDTH / 2;
+    const playerStartY = gameHeight / 2 - FRAME_HEIGHT / 2;
+
+    // Ensure the dot does not spawn inside the player
+    const buffer = 30; // Buffer distance to prevent overlap
+    const collidesWithPlayer =
+        position.x + 20 > playerStartX - buffer &&
+        position.x < playerStartX + FRAME_WIDTH + buffer &&
+        position.y + 20 > playerStartY - buffer &&
+        position.y < playerStartY + FRAME_HEIGHT + buffer;
+
+    if (collidesWithPlayer) return false;
+
+    // Ensure dots do not overlap with each other
     return redDots.every(dot => {
         const dotX = parseFloat(dot.style.left);
         const dotY = parseFloat(dot.style.top);
@@ -578,6 +642,7 @@ function isPositionValid(position) {
         return distance >= minDistance;
     });
 }
+
 
 // ---------------------------------------
 // PLAYER MOVEMENT
