@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://ddjw4vbjtin31"]
+
+[ext_resource type="PackedScene" uid="uid://dq4pfoi4ubrqx" path="res://scenes/enemy/BaseEnemy.tscn" id="1_k0wwt"]
+[ext_resource type="SpriteFrames" uid="uid://bo5dimt6awx6y" path="res://scenes/enemy/t2_sword_goblin.tres" id="2_cu28s"]
+
+[node name="baseEnemy" instance=ExtResource("1_k0wwt")]
+
+[node name="enemy_sprite" parent="." index="0"]
+sprite_frames = ExtResource("2_cu28s")
+animation = &"kneel_south"

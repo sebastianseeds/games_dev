@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://dvifeuceetnjx"]
+
+[ext_resource type="PackedScene" uid="uid://4rqybev5tv1h" path="res://scenes/npc/BaseNPC.tscn" id="1_jcava"]
+[ext_resource type="SpriteFrames" uid="uid://r84sj3lq16ob" path="res://scenes/npc/merchant_dargus_ding.tres" id="2_jnu4i"]
+
+[node name="baseNPC" instance=ExtResource("1_jcava")]
+
+[node name="npc_sprite" parent="." index="0"]
+sprite_frames = ExtResource("2_jnu4i")
+animation = &"walk_east"

@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://pk6lmih3byug"]
+
+[ext_resource type="PackedScene" uid="uid://dq4pfoi4ubrqx" path="res://scenes/enemy/BaseEnemy.tscn" id="1_4jkfp"]
+[ext_resource type="SpriteFrames" uid="uid://dhefxq6re83a3" path="res://scenes/enemy/t2_spear_goblin.tres" id="2_kpivw"]
+
+[node name="baseEnemy" instance=ExtResource("1_4jkfp")]
+
+[node name="enemy_sprite" parent="." index="0"]
+sprite_frames = ExtResource("2_kpivw")
+animation = &"walk_north"

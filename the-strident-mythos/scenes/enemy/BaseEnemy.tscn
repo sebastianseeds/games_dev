@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://dq4pfoi4ubrqx"]
+
+[ext_resource type="Script" path="res://scripts/enemy.gd" id="1_t065e"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w7v6p"]
+
+[node name="baseEnemy" type="CharacterBody2D"]
+script = ExtResource("1_t065e")
+
+[node name="enemy_sprite" type="AnimatedSprite2D" parent="."]
+
+[node name="Hurtbox" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_w7v6p")
+
+[node name="Hitbox" type="Area2D" parent="."]

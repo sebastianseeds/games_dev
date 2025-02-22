@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://dx22dyks0nx4t"]
+
+[ext_resource type="PackedScene" uid="uid://4rqybev5tv1h" path="res://scenes/npc/BaseNPC.tscn" id="1_yy0vp"]
+
+[node name="baseNPC" instance=ExtResource("1_yy0vp")]
+
+[node name="npc_sprite" parent="." index="0"]
+animation = &"attack_ranged_south"

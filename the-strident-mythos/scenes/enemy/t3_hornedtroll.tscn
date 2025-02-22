@@ -1,0 +1,81 @@
+[gd_scene load_steps=13 format=3 uid="uid://p8dqcqdnqoir"]
+
+[ext_resource type="PackedScene" uid="uid://dq4pfoi4ubrqx" path="res://scenes/enemy/BaseEnemy.tscn" id="1_fu71s"]
+[ext_resource type="Texture2D" uid="uid://v4hp1531cvm7" path="res://sprites/enemies/enemy_t3_hornedtroll.png" id="2_ya1wh"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_785bh"]
+atlas = ExtResource("2_ya1wh")
+region = Rect2(0, 518, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u2146"]
+atlas = ExtResource("2_ya1wh")
+region = Rect2(64, 518, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gmk0w"]
+atlas = ExtResource("2_ya1wh")
+region = Rect2(128, 518, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v8n6t"]
+atlas = ExtResource("2_ya1wh")
+region = Rect2(192, 518, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kqqip"]
+atlas = ExtResource("2_ya1wh")
+region = Rect2(256, 518, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x86u7"]
+atlas = ExtResource("2_ya1wh")
+region = Rect2(320, 518, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h1akq"]
+atlas = ExtResource("2_ya1wh")
+region = Rect2(384, 518, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sfj5l"]
+atlas = ExtResource("2_ya1wh")
+region = Rect2(448, 518, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_184t4"]
+atlas = ExtResource("2_ya1wh")
+region = Rect2(512, 518, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_k8l4b"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_785bh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u2146")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gmk0w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v8n6t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kqqip")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x86u7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h1akq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sfj5l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_184t4")
+}],
+"loop": true,
+"name": &"walk_north",
+"speed": 5.0
+}]
+
+[node name="baseEnemy" instance=ExtResource("1_fu71s")]
+
+[node name="enemy_sprite" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_k8l4b")
+animation = &"walk_north"

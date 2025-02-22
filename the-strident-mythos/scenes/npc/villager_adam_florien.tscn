@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://ctiqbi175bcs5"]
+
+[ext_resource type="PackedScene" uid="uid://4rqybev5tv1h" path="res://scenes/npc/BaseNPC.tscn" id="1_xisei"]
+[ext_resource type="SpriteFrames" uid="uid://d042fbxjvgp38" path="res://scenes/npc/villager_adam_florien.tres" id="2_insov"]
+
+[node name="baseNPC" instance=ExtResource("1_xisei")]
+
+[node name="npc_sprite" parent="." index="0"]
+sprite_frames = ExtResource("2_insov")
+animation = &"kneel_south"

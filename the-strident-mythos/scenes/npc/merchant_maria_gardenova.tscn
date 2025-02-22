@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://cksjrt8y5rqq5"]
+
+[ext_resource type="PackedScene" uid="uid://4rqybev5tv1h" path="res://scenes/npc/BaseNPC.tscn" id="1_5evl1"]
+[ext_resource type="SpriteFrames" uid="uid://ovb48kp32xpi" path="res://scenes/npc/tres/merchant_maria_gardenova.tres" id="2_ftkt3"]
+
+[node name="baseNPC" instance=ExtResource("1_5evl1")]
+
+[node name="npc_sprite" parent="." index="0"]
+sprite_frames = ExtResource("2_ftkt3")
+animation = &"attack_slash_west"

@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://cv7thkblbl150"]
+
+[ext_resource type="PackedScene" uid="uid://f4rpc8cwt5wt" path="res://scenes/enemy/base_humanoid_enemy.tscn" id="1_jcssf"]
+[ext_resource type="Script" path="res://scripts/enemy/t_2_dagger_bandit.gd" id="2_b7521"]
+
+[node name="base_humanoid_enemy" instance=ExtResource("1_jcssf")]
+script = ExtResource("2_b7521")

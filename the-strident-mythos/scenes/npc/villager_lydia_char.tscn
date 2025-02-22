@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://y1fg1kskomd6"]
+
+[ext_resource type="PackedScene" uid="uid://4rqybev5tv1h" path="res://scenes/npc/BaseNPC.tscn" id="1_xlfen"]
+[ext_resource type="SpriteFrames" uid="uid://dsigghs2vm3fb" path="res://scenes/npc/villager_lydia_char.tres" id="2_rki6t"]
+
+[node name="baseNPC" instance=ExtResource("1_xlfen")]
+
+[node name="npc_sprite" parent="." index="0"]
+sprite_frames = ExtResource("2_rki6t")
+animation = &"attack_slash_west"

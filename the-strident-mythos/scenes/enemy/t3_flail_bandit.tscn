@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://b8p3sbbugr1ts"]
+
+[ext_resource type="PackedScene" uid="uid://dq4pfoi4ubrqx" path="res://scenes/enemy/BaseEnemy.tscn" id="1_la5tm"]
+[ext_resource type="SpriteFrames" uid="uid://d2w5u1251sjlq" path="res://scenes/enemy/t3_flail_bandit.tres" id="2_6wiib"]
+
+[node name="baseEnemy" instance=ExtResource("1_la5tm")]
+
+[node name="enemy_sprite" parent="." index="0"]
+sprite_frames = ExtResource("2_6wiib")
+animation = &"kneel_south"
