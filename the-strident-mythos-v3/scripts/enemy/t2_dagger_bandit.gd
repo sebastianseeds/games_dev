@@ -1,9 +1,9 @@
-extends "res://scripts/enemy/base_animal_enemy.gd"
+extends "res://scripts/enemy/base_humanoid_enemy.gd"
 
 # Path to the wolf sprite sheet
-const SPRITE_SHEET_PATH = "res://assets/sprites/enemies/enemy_t1_wolf_edit.png"
+const SPRITE_SHEET_PATH = "res://assets/sprites/enemies/enemy_t2_dagger_bandit.png"
 
-@onready var sprite_node = $base_animal_enemy_sprite  # Reference to the sprite
+@onready var sprite_node = $base_humanoid_enemy_sprite  # Reference to the sprite
 
 func _ready():
 	super()  # Calls _ready() from base_animal_enemy.gd

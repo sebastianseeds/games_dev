@@ -8,14 +8,18 @@ extends CharacterBody2D
 var state = "idle"  # "idle", "fleeing", "attacking"
 var player = null  # Player reference
 
-@onready var anim = $base_enemy_sprite
-@onready var hurtbox_area = $Hurtbox_Area
-@onready var hurtbox_north = $Hurtbox_Area/Hurtbox_North
-@onready var hurtbox_south = $Hurtbox_Area/Hurtbox_South
-@onready var hurtbox_east = $Hurtbox_Area/Hurtbox_East
-@onready var hurtbox_west = $Hurtbox_Area/Hurtbox_West
+@onready var anim = $base_animal_enemy_sprite
+@onready var hurtbox_area = $base_animal_enemy_sprite/hurtbox_area
+@onready var hurtbox_north = $base_animal_enemy_sprite/hurtbox_area/hurtbox_north
+@onready var hurtbox_south = $base_animal_enemy_sprite/hurtbox_area/hurtbox_south
+@onready var hurtbox_east = $base_animal_enemy_sprite/hurtbox_area/hurtbox_east
+@onready var hurtbox_west = $base_animal_enemy_sprite/hurtbox_area/hurtbox_west
 
 func _ready():
+	if not anim:
+		print("🚨 ERROR: `base_enemy_sprite` not found in", name)
+	if not hurtbox_area:
+		print("🚨 ERROR: `Hurtbox_Area` not found in", name)
 	disable_all_hurtboxes()  # Ensure only one is active at a time
 
 func _process(_delta):

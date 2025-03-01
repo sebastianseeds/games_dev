@@ -4,6 +4,4 @@
 [ext_resource type="Script" path="res://scripts/enemy/t1_brownwolf.gd" id="2_uniym"]
 
 [node name="base_animal_enemy" instance=ExtResource("1_7wy6t")]
-
-[node name="base_animal_enemy_sprite" parent="." index="0"]
 script = ExtResource("2_uniym")

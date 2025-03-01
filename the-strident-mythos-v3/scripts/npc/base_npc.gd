@@ -10,7 +10,7 @@ var facing_direction = "south"
 var dialogue_index = 0
 var is_talking = false
 
-@onready var anim = $npc_sprite
+@onready var anim = $base_npc_sprite
 
 func _ready():
 	anim.play("idle_" + facing_direction)

@@ -1,0 +1,107 @@
+[gd_scene load_steps=5 format=3 uid="uid://gtfcsmeqge6l"]
+
+[ext_resource type="PackedScene" uid="uid://c22ul6cilwelg" path="res://scenes/player/player.tscn" id="1_ne7i4"]
+[ext_resource type="Script" path="res://scripts/dialogue_manager.gd" id="2_4v88y"]
+[ext_resource type="PackedScene" uid="uid://b25jm5b0albnx" path="res://scenes/npc/villager_adam_florien.tscn" id="3_3mo1r"]
+
+[sub_resource type="SystemFont" id="SystemFont_p6wsi"]
+
+[node name="Main" type="Node2D"]
+position = Vector2(151, 87)
+
+[node name="World" type="Node2D" parent="."]
+
+[node name="player" parent="World" instance=ExtResource("1_ne7i4")]
+position = Vector2(147, 61)
+
+[node name="adam_florien" parent="World" instance=ExtResource("3_3mo1r")]
+position = Vector2(195, 60)
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="UIRoot" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1152.0
+offset_bottom = -648.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="DialogueBox" type="Control" parent="UI/UIRoot"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 180.0
+offset_top = 340.0
+offset_right = 980.0
+offset_bottom = 640.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 8
+script = ExtResource("2_4v88y")
+
+[node name="Panel" type="Panel" parent="UI/UIRoot/DialogueBox"]
+self_modulate = Color(0, 0, 0, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="PortraitBox" type="Panel" parent="UI/UIRoot/DialogueBox/Panel"]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 316.0
+offset_bottom = 296.0
+
+[node name="TextureRect" type="TextureRect" parent="UI/UIRoot/DialogueBox/Panel/PortraitBox"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 7.0
+offset_top = 8.0
+offset_right = -3.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 3
+stretch_mode = 4
+
+[node name="TextBox" type="Panel" parent="UI/UIRoot/DialogueBox/Panel"]
+layout_mode = 0
+offset_left = 321.0
+offset_top = 106.0
+offset_right = 1562.0
+offset_bottom = 296.0
+
+[node name="Label" type="Label" parent="UI/UIRoot/DialogueBox/Panel/TextBox"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_top = 6.0
+offset_right = -7.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = SubResource("SystemFont_p6wsi")
+theme_override_font_sizes/font_size = 32
+autowrap_mode = 3
+
+[node name="DialogueManager" type="Control" parent="UI/UIRoot"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("2_4v88y")

@@ -1,7 +1,7 @@
 [gd_scene load_steps=87 format=3 uid="uid://belqmiveaequm"]
 
 [ext_resource type="Script" path="res://scripts/enemy/base_animal_enemy.gd" id="1_y05kd"]
-[ext_resource type="Texture2D" uid="uid://bt814ponfundi" path="res://assets/sprites/enemies/enemy_t1_wolf_edit.png" id="2_mwght"]
+[ext_resource type="Texture2D" uid="uid://skd6n5gytfml" path="res://assets/sprites/enemies/enemy_t1_wolf_edit.png" id="2_mwght"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wt6us"]
 atlas = ExtResource("2_mwght")
@@ -674,24 +674,24 @@ script = ExtResource("1_y05kd")
 sprite_frames = SubResource("SpriteFrames_4y6qf")
 animation = &"attack_west"
 
-[node name="Area2D" type="Area2D" parent="base_animal_enemy_sprite"]
+[node name="hurtbox_area" type="Area2D" parent="base_animal_enemy_sprite"]
 
-[node name="hurtbox_west" type="CollisionShape2D" parent="base_animal_enemy_sprite/Area2D"]
+[node name="hurtbox_west" type="CollisionShape2D" parent="base_animal_enemy_sprite/hurtbox_area"]
 position = Vector2(-4, 2.5)
 shape = SubResource("RectangleShape2D_3lhr5")
 disabled = true
 
-[node name="hurtbox_east" type="CollisionShape2D" parent="base_animal_enemy_sprite/Area2D"]
+[node name="hurtbox_east" type="CollisionShape2D" parent="base_animal_enemy_sprite/hurtbox_area"]
 position = Vector2(3, 2.5)
 shape = SubResource("RectangleShape2D_yl06k")
 disabled = true
 
-[node name="hurtbox_south" type="CollisionShape2D" parent="base_animal_enemy_sprite/Area2D"]
+[node name="hurtbox_south" type="CollisionShape2D" parent="base_animal_enemy_sprite/hurtbox_area"]
 position = Vector2(0, 4.5)
 shape = SubResource("RectangleShape2D_ijprl")
 disabled = true
 
-[node name="hurtbox_north" type="CollisionShape2D" parent="base_animal_enemy_sprite/Area2D"]
+[node name="hurtbox_north" type="CollisionShape2D" parent="base_animal_enemy_sprite/hurtbox_area"]
 position = Vector2(0, 2.5)
 shape = SubResource("RectangleShape2D_kcbfm")
 disabled = true
