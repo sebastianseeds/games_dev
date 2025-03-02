@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://gtfcsmeqge6l"]
 
 [ext_resource type="PackedScene" uid="uid://c22ul6cilwelg" path="res://scenes/player/player.tscn" id="1_ne7i4"]
-[ext_resource type="Script" path="res://scripts/dialogue_manager.gd" id="2_4v88y"]
+[ext_resource type="Script" path="res://scripts/rpg/dialogue_manager.gd" id="2_4v88y"]
 [ext_resource type="PackedScene" uid="uid://b25jm5b0albnx" path="res://scenes/npc/villager_adam_florien.tscn" id="3_3mo1r"]
 
 [sub_resource type="SystemFont" id="SystemFont_p6wsi"]

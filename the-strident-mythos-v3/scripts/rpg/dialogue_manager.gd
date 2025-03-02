@@ -150,3 +150,21 @@ func apply_portrait_style():
 	# Configure portrait texture
 	portrait.expand_mode = 1  # Expand
 	portrait.stretch_mode = 5  # Keep aspect centered
+
+# Add to existing dialogue_manager.gd
+
+# Add a method to update dialogue text without closing the dialogue box
+func update_dialogue_text(character_name: String, text: String, portrait_texture: Texture2D = null):
+	# Update the text
+	dialogue_label.text = "[" + character_name + "]: " + text
+	
+	# Update portrait if provided
+	if portrait_texture:
+		portrait.texture = portrait_texture
+		portrait_box.show()
+		portrait.show()
+	
+	# Ensure dialogue is visible
+	dialogue_panel.show()
+	text_box.show()
+	dialogue_label.show()
