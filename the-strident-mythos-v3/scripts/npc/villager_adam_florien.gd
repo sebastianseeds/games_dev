@@ -270,7 +270,8 @@ func show_dialogue_for_current_state(portrait_texture, player):
 				greeting += player_condition
 			
 			dialogue_manager.show_dialogue(npc_name, greeting + "\n\n[Press E to continue]", portrait_texture)
-			current_dialogue_state = DialogueState.MAIN_MENU
+			#current_dialogue_state = DialogueState.MAIN_MENU
+			set_process_input(true)
 			
 		DialogueState.MAIN_MENU:
 			var menu_text = "What can I help you with today?\n\n"
@@ -397,6 +398,12 @@ func _input(event):
 	
 	if event is InputEventKey and event.pressed:
 		match current_dialogue_state:
+			DialogueState.GREETING:
+				# Check if player pressed E or the interact button
+				if event.keycode == KEY_E or event.is_action_pressed("interact"):
+					current_dialogue_state = DialogueState.MAIN_MENU
+					show_dialogue_for_current_state(load(portrait_path) if portrait_path else null, find_player())
+			
 			DialogueState.MAIN_MENU:
 				if event.keycode == KEY_1:
 					current_dialogue_state = DialogueState.HEALING
@@ -475,6 +482,7 @@ func check_dialogue_status():
 			show_dialogue_for_current_state(load(portrait_path) if portrait_path else null, find_player())
 		else:
 			is_talking = false
+			current_dialogue_state = DialogueState.GREETING
 			print("✅ Dialogue closed, resuming NPC behavior")
 	else:
 		# Keep checking until dialogue is closed

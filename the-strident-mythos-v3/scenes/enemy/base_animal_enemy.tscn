@@ -1,6 +1,6 @@
 [gd_scene load_steps=87 format=3 uid="uid://belqmiveaequm"]
 
-[ext_resource type="Script" path="res://scripts/enemy/base_animal_enemy.gd" id="1_y05kd"]
+[ext_resource type="Script" path="res://scripts/archive/base_animal_enemy.gd" id="1_y05kd"]
 [ext_resource type="Texture2D" uid="uid://skd6n5gytfml" path="res://assets/sprites/enemies/enemy_t1_wolf_edit.png" id="2_mwght"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wt6us"]

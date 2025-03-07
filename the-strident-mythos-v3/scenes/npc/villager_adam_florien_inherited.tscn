@@ -1,7 +1,7 @@
 [gd_scene load_steps=190 format=3 uid="uid://cekfpu7o12xdq"]
 
 [ext_resource type="PackedScene" uid="uid://b12jq2u8slk00" path="res://scenes/npc/base_npc.tscn" id="1_xpbvo"]
-[ext_resource type="Script" path="res://scripts/npc/villager_adam_florien_inherited.gd" id="2_fdl8j"]
+[ext_resource type="Script" path="res://scripts/archive/villager_adam_florien_inherited.gd" id="2_fdl8j"]
 [ext_resource type="Texture2D" uid="uid://sbjfcxex1lgl" path="res://assets/sprites/npc/base_npc.png" id="2_lkdfr"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_308qw"]
