@@ -13,6 +13,24 @@ var facing_direction = "south"
 var stats: CharacterStats
 var inventory = []
 
+# Stamina system variables
+var max_stamina = 100
+var current_stamina = 100
+var stamina_regen_rate = 10  # Stamina points per second
+var base_attack_stamina_cost = 20
+var stamina_exhausted = false  # Flag for exhaustion state
+
+# Attack variables
+var can_attack = true
+var attack_cooldown = 0.5  # Half a second between attacks
+var attack_cooldown_timer = 0.0  # Timer to track cooldown
+var attack_damage = 10
+var is_attacking = false
+
+# Base animation speed and modifier
+var base_animation_speed = 1.0
+var dex_animation_modifier = 0.0
+
 func _ready():
 	print("Player: _ready function called")
 	
@@ -30,6 +48,15 @@ func _ready():
 	
 	# Set initial HP
 	stats.current_hp = stats.max_hp
+	
+	# Connect animation finished signal
+	anim.animation_finished.connect(_on_animation_finished)
+	
+		# Calculate max stamina based on constitution
+	update_stamina_max()
+	
+	# Calculate animation speed based on dexterity
+	update_animation_speed()
 	
 	# Add player to players group for easy finding
 	if not is_in_group("players"):
@@ -63,10 +90,51 @@ func _ready():
 		", WIS " + str(stats.wisdom) + 
 		", CHA " + str(stats.charisma))
 
+func _on_animation_finished():
+	# Check if we just finished an attack animation
+	var current_anim = anim.animation
+	if current_anim.begins_with("attack_") and is_attacking:
+		is_attacking = false
+		# Start playing the idle animation
+		anim.play("idle_" + facing_direction)
+
+# Call this whenever dexterity changes
+func update_animation_speed():
+	# Calculate dexterity modifier
+	var dex_mod = stats.get_ability_modifier(stats.dexterity)
+	
+	# Convert the modifier to a speed multiplier
+	# For example: +4 DEX gives 40% faster animations
+	dex_animation_modifier = dex_mod * 0.1
+	
+	# Ensure a minimum speed (don't go too slow for low DEX)
+	var attack_speed_multiplier = max(0.7, 1.0 + dex_animation_modifier)
+	
+	# Apply to attack animations
+	for anim_name in anim.sprite_frames.get_animation_names():
+		if anim_name.begins_with("attack_"):
+			# Set attack animation speed based on dexterity
+			anim.sprite_frames.set_animation_speed(anim_name, base_animation_speed * attack_speed_multiplier)
+			print("Set " + anim_name + " speed to " + str(base_animation_speed * attack_speed_multiplier))
+
 func _process(delta):
 	handle_input()
 	update_animation()
 	move_and_slide()
+	
+	# Regenerate stamina over time
+	regenerate_stamina(delta)
+	
+	# Check for exhaustion recovery
+	if stamina_exhausted and current_stamina > max_stamina * 0.3:
+		stamina_exhausted = false
+		print("Recovered from stamina exhaustion")
+	
+	# Handle attack cooldown
+	if not can_attack:
+		attack_cooldown_timer -= delta
+		if attack_cooldown_timer <= 0:
+			can_attack = true
 	
 	# Re-enable auto-close dialogue when walking away
 	if dialogue_manager != null and dialogue_manager.is_showing:
@@ -91,6 +159,11 @@ func is_near_any_npc() -> bool:
 func handle_input():
 	direction = Vector2.ZERO
 	
+	# Don't allow movement during attack animation
+	if is_attacking:
+		velocity = Vector2.ZERO
+		return
+	
 	if Input.is_action_pressed("ui_up"):
 		direction.y -= 1
 		facing_direction = "north"
@@ -105,18 +178,144 @@ func handle_input():
 		direction.x += 1
 		facing_direction = "east"
 	
+	# Handle attack input
+	if Input.is_action_just_pressed("ui_accept") and can_attack:
+		perform_attack()
+	
 	direction = direction.normalized()
 	velocity = direction * speed
 
 func update_animation():
+	
+	# Don't change animation if we're attacking
+	if is_attacking:
+		return
+	
 	if direction != Vector2.ZERO:
 		anim.play("walk_" + facing_direction)
 	else:
 		anim.play("idle_" + facing_direction)
 
-func attack():
-	anim.play("attack_" + facing_direction)
+func update_stamina_max():
+	# Base stamina + bonus from Constitution
+	var con_mod = stats.get_ability_modifier(stats.constitution)
+	max_stamina = 100 + (con_mod * 20)  # +20 stamina per CON point above 10
+	current_stamina = min(current_stamina, max_stamina)  # Cap current at max
+	print("Max stamina updated: " + str(max_stamina) + " (CON mod: " + str(con_mod) + ")")
 
+func regenerate_stamina(delta):
+	# Base regeneration rate + CON modifier bonus
+	var con_mod = stats.get_ability_modifier(stats.constitution)
+	var regen_amount = (stamina_regen_rate + con_mod) * delta
+	
+	# Slower regeneration when exhausted
+	if stamina_exhausted:
+		regen_amount *= 0.5
+	
+	current_stamina = min(max_stamina, current_stamina + regen_amount)
+
+#func attack():
+#	anim.play("attack_" + facing_direction)
+
+func perform_attack():
+	# Calculate stamina cost
+	var stamina_cost = base_attack_stamina_cost
+	
+	# Check if we have enough stamina
+	if current_stamina < stamina_cost:
+		# Not enough stamina - enter exhausted state
+		stamina_exhausted = true
+		print("Not enough stamina! Exhausted!")
+		
+		# Allow attack but at great cost
+		stamina_cost = current_stamina  # Use whatever is left
+	
+	# Reduce stamina
+	current_stamina -= stamina_cost
+	print("Attack used " + str(stamina_cost) + " stamina. Remaining: " + str(current_stamina))
+	
+	# Set attacking state
+	is_attacking = true
+	can_attack = false
+	
+	# Calculate cooldown based on dexterity and stamina state
+	var dex_mod = stats.get_ability_modifier(stats.dexterity)
+	var dex_cooldown_reduction = dex_mod * 0.05  # 5% reduction per DEX modifier
+	
+	var final_cooldown = base_attack_cooldown - dex_cooldown_reduction
+	
+	# Much longer cooldown when exhausted
+	if stamina_exhausted:
+		final_cooldown *= 2.0
+		print("Exhausted - slow attack!")
+	
+	# Ensure minimum cooldown
+	attack_cooldown_timer = max(0.2, final_cooldown)
+	
+	# Adjust animation speed based on stamina and dexterity
+	var animation_speed_multiplier = 1.0 + (dex_mod * 0.1)
+	
+	# Slower animation when exhausted
+	if stamina_exhausted:
+		animation_speed_multiplier *= 0.5
+	
+	# Set animation speed for this attack
+	var anim_name = "attack_slash_" + facing_direction
+	anim.sprite_frames.set_animation_speed(anim_name, animation_speed_multiplier * 5.0)  # Assuming base is 5.0
+	
+	# Play attack animation
+	anim.play(anim_name)
+	
+	# Create attack hitbox
+	create_attack_hitbox()
+	
+	print("Attack speed: " + str(animation_speed_multiplier) + ", Cooldown: " + str(attack_cooldown_timer))
+
+func create_attack_hitbox():
+	# Create a hitbox based on facing direction
+	var hitbox = Area2D.new()
+	hitbox.name = "AttackHitbox"
+	add_child(hitbox)
+	
+	var collision = CollisionShape2D.new()
+	var shape = RectangleShape2D.new()
+	
+	# Set hitbox size and position based on facing direction
+	match facing_direction:
+		"north":
+			shape.size = Vector2(30, 20)
+			collision.position = Vector2(0, -25)
+		"south":
+			shape.size = Vector2(30, 20)
+			collision.position = Vector2(0, 25)
+		"east":
+			shape.size = Vector2(20, 30)
+			collision.position = Vector2(25, 0)
+		"west":
+			shape.size = Vector2(20, 30)
+			collision.position = Vector2(-25, 0)
+	
+	collision.shape = shape
+	hitbox.add_child(collision)
+	
+	# Connect signal to handle enemy hit
+	hitbox.connect("body_entered", _on_attack_hitbox_body_entered)
+	
+	# Delete hitbox after a short time
+	await get_tree().create_timer(0.2).timeout
+	hitbox.queue_free()
+
+func _on_attack_hitbox_body_entered(body):
+	# Check if the body is an enemy
+	if body.is_in_group("enemies") or (body.name.begins_with("base_animal_enemy") or body.name.begins_with("base_humanoid_enemy") or body.name.begins_with("base_monster_enemy")):
+		print("Hit enemy: " + body.name)
+		
+		# Calculate damage based on player's strength
+		var damage = attack_damage + stats.get_ability_modifier(stats.strength)
+		
+		# Apply damage to enemy
+		if body.has_method("take_damage"):
+			body.take_damage(damage)
 
 # Player stats
 var health = 100

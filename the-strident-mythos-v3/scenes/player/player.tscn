@@ -1439,7 +1439,7 @@ script = ExtResource("1_no2gp")
 
 [node name="player_sprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_guf2c")
-animation = &"idle_south"
+animation = &"attack_slash_north"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 2)
