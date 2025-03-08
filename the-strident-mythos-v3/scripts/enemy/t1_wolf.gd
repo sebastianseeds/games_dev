@@ -11,16 +11,23 @@ func process_idle(delta):
 	# Update idle timer
 	idle_timer -= delta
 	
-	# If idle timer runs out, decide next action
-	if idle_timer <= 0:
-		# Random chance to bark before wandering
+	# Add a periodic bark chance while idle
+	# Check every 1-2 seconds if the wolf should bark
+	bark_check_timer -= delta
+	if bark_check_timer <= 0:
+		# Reset the bark check timer
+		bark_check_timer = randf_range(1.0, 2.0)
+		
+		# Give wolf a chance to bark
 		if randf() < bark_chance and not is_barking:
 			bark()
-		else:
-			# Start wandering
-			get_new_wander_target()
-			state = "wandering"
-			wander_timer = randf_range(min_wander_time, max_wander_time)
+	
+	# If idle timer runs out, decide next action
+	if idle_timer <= 0:
+		# Start wandering (wolf has already had chances to bark)
+		get_new_wander_target()
+		state = "wandering"
+		wander_timer = randf_range(min_wander_time, max_wander_time)
 			
 func bark():
 	# Set barking flag
@@ -87,7 +94,12 @@ func process_wandering(delta):
 	
 	# Move towards wander target
 	wander_direction = (wander_target - global_position).normalized()
-	velocity = wander_direction * wander_speed
+	
+	# Apply DEX modifier to walking speed
+	var dex_mod = stats.get_ability_modifier(stats.dexterity)
+	var adjusted_walk_speed = walk_speed + (dex_mod * 2)  # +2 speed per DEX point above 10
+	
+	velocity = wander_direction * adjusted_walk_speed
 	move_and_slide()
 	
 	# Update animation based on movement direction
@@ -97,7 +109,9 @@ func process_wandering(delta):
 	
 	# If we've reached the target, get a new one
 	if global_position.distance_to(wander_target) < 10:
-		get_new_wander_target()# Wolf statistics
+		get_new_wander_target()
+		
+
 @export var hit_dice := 2       # Number of hit dice
 @export var hit_die_type := 8   # Type of hit die (d8)
 var max_health = 0
@@ -183,14 +197,16 @@ func _on_animation_finished():
 
 @export var detection_range := 150.0
 @export var flee_range := 100.0
-@export var safe_range := 140.0
+@export var safe_range := 200.0
 @export var retreat_duration: float = 2.0
-@export var attack_range := 30.0
+@export var attack_range := 50.0
 @export var move_speed := 70.0
 @export var is_hostile := true  # If false, wolf flees instead of chases
 @export var base_attack_cooldown := 1.5  # Base time between attacks
 @export var retreat_time := 2.0         # How long the wolf runs away after failing a Wisdom check
 @export var wisdom_save_dc := 10        # Difficulty class for the wolf's will save
+@export var walk_speed := 40.0   # Speed for walking (wandering, idle)
+@export var run_speed := 100.0   # Speed for running (chasing, attacking)
 
 # Attack/cooldown logic
 var can_attack: bool = true
@@ -229,6 +245,7 @@ var wander_timer := 0.0
 var idle_timer := 0.0
 var home_position := Vector2.ZERO  # Original spawn position
 var is_barking := false
+var bark_check_timer := 0.0  # Timer for periodic bark checks while idle
 
 func _ready():
 	stats = CharacterStats.new()
@@ -252,6 +269,8 @@ func _ready():
 	
 	# Start in idle state with a random timer
 	idle_timer = randf_range(min_idle_time, max_idle_time)
+	# Initialize bark check timer
+	bark_check_timer = randf_range(1.0, 2.0)
 	
 	# Try to find the player
 	player = get_node_or_null("/root/Main/World/player")
@@ -413,13 +432,24 @@ func chase_player(delta):
 	
 	# Otherwise, move toward the player
 	var direction = (player.global_position - global_position).normalized()
-	velocity = direction * move_speed
-	move_and_slide()
+
+	# Use run_speed based on Dexterity
+	var dex_mod = stats.get_ability_modifier(stats.dexterity)
+	var adjusted_run_speed = run_speed + (dex_mod * 5)  # +5 speed per DEX point above 10
 	
-	# Face the player
+	velocity = direction * adjusted_run_speed
+	move_and_slide()
+
+	# Face the player and use running animation
 	var facing_dir = get_facing_direction(player.global_position)
 	update_hurtbox(facing_dir)
-	anim.play("walk_" + facing_dir)
+	
+	# Use run animation if available, otherwise fall back to walk
+	var run_anim = "run_" + facing_dir
+	if anim.sprite_frames.has_animation(run_anim):
+		anim.play(run_anim)
+	else:
+		anim.play("walk_" + facing_dir)
 
 func take_damage(amount: int):
 	if is_dead:
@@ -463,13 +493,24 @@ func retreat_from_player(delta):
 
 	# Move away from player
 	var direction = (global_position - player.global_position).normalized()
-	velocity = direction * move_speed
+	
+	# Apply DEX modifier to running speed when retreating
+	var dex_mod = stats.get_ability_modifier(stats.dexterity)
+	var adjusted_run_speed = run_speed + (dex_mod * 5)
+	
+	velocity = direction * adjusted_run_speed
 	move_and_slide()
 
 	# Set animation based on movement direction
 	var facing_dir = get_facing_direction(-direction)  # Face away from player
 	update_hurtbox(facing_dir)
-	anim.play("walk_" + facing_dir)
+	
+	# Use run animation if available
+	var run_anim = "run_" + facing_dir
+	if anim.sprite_frames.has_animation(run_anim):
+		anim.play(run_anim)
+	else:
+		anim.play("walk_" + facing_dir)
 
 	# Check if we've reached safe distance regardless of timer
 	var distance = global_position.distance_to(player.global_position)
@@ -489,18 +530,30 @@ func retreat_from_player(delta):
 			is_retreating_by_time = false
 			print(name + " stays cautious despite safe distance (Wisdom save: " + str(total) + " vs DC " + str(wisdom_save_dc) + ")")
 
+
 func flee_from_player():
 	if not player:
 		state = "idle"
 		return
 	
 	var direction = (global_position - player.global_position).normalized()
-	velocity = direction * move_speed
+	
+	# Apply DEX modifier to running speed when fleeing
+	var dex_mod = stats.get_ability_modifier(stats.dexterity)
+	var adjusted_run_speed = run_speed + (dex_mod * 5)
+	
+	velocity = direction * adjusted_run_speed
 	move_and_slide()
 	
 	var facing_direction = get_facing_direction(-direction)  # Face away from player
 	update_hurtbox(facing_direction)
-	anim.play("walk_" + facing_direction)
+	
+	# Use run animation if available
+	var run_anim = "run_" + facing_direction
+	if anim.sprite_frames.has_animation(run_anim):
+		anim.play(run_anim)
+	else:
+		anim.play("walk_" + facing_direction)
 
 	# Only return to idle if player is far enough away
 	if global_position.distance_to(player.global_position) > flee_range * 1.5:
