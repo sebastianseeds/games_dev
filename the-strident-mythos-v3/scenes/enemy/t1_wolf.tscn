@@ -1,4 +1,4 @@
-[gd_scene load_steps=87 format=3 uid="uid://c5s8nsy50voka"]
+[gd_scene load_steps=105 format=3 uid="uid://c5s8nsy50voka"]
 
 [ext_resource type="Script" path="res://scripts/enemy/t1_wolf.gd" id="1_na34h"]
 [ext_resource type="Texture2D" uid="uid://skd6n5gytfml" path="res://assets/sprites/enemies/enemy_t1_wolf_edit.png" id="2_ymyfi"]
@@ -82,6 +82,78 @@ region = Rect2(833, 576, 64, 64)
 [sub_resource type="AtlasTexture" id="AtlasTexture_ejd2n"]
 atlas = ExtResource("2_ymyfi")
 region = Rect2(897, 576, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q1eh0"]
+atlas = ExtResource("2_ymyfi")
+region = Rect2(641, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_suq8y"]
+atlas = ExtResource("2_ymyfi")
+region = Rect2(705, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k4dmn"]
+atlas = ExtResource("2_ymyfi")
+region = Rect2(769, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_11axu"]
+atlas = ExtResource("2_ymyfi")
+region = Rect2(833, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_woq1m"]
+atlas = ExtResource("2_ymyfi")
+region = Rect2(321, 256, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lo0gw"]
+atlas = ExtResource("2_ymyfi")
+region = Rect2(385, 256, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tp47o"]
+atlas = ExtResource("2_ymyfi")
+region = Rect2(449, 256, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t1bc5"]
+atlas = ExtResource("2_ymyfi")
+region = Rect2(513, 256, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ldbpx"]
+atlas = ExtResource("2_ymyfi")
+region = Rect2(577, 256, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8de56"]
+atlas = ExtResource("2_ymyfi")
+region = Rect2(1, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l8gbh"]
+atlas = ExtResource("2_ymyfi")
+region = Rect2(65, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_beiti"]
+atlas = ExtResource("2_ymyfi")
+region = Rect2(129, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a7edo"]
+atlas = ExtResource("2_ymyfi")
+region = Rect2(193, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0da2w"]
+atlas = ExtResource("2_ymyfi")
+region = Rect2(257, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sss0n"]
+atlas = ExtResource("2_ymyfi")
+region = Rect2(641, 384, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hr6dw"]
+atlas = ExtResource("2_ymyfi")
+region = Rect2(705, 384, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6xmm1"]
+atlas = ExtResource("2_ymyfi")
+region = Rect2(769, 384, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0h6aw"]
+atlas = ExtResource("2_ymyfi")
+region = Rect2(833, 384, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_a0bsd"]
 atlas = ExtResource("2_ymyfi")
@@ -333,7 +405,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_2wome")
 }],
-"loop": true,
+"loop": false,
 "name": &"attack_east",
 "speed": 5.0
 }, {
@@ -353,7 +425,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_07bn5")
 }],
-"loop": true,
+"loop": false,
 "name": &"attack_north",
 "speed": 5.0
 }, {
@@ -373,7 +445,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_fotq1")
 }],
-"loop": true,
+"loop": false,
 "name": &"attack_south",
 "speed": 5.0
 }, {
@@ -393,8 +465,82 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ejd2n")
 }],
-"loop": true,
+"loop": false,
 "name": &"attack_west",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q1eh0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_suq8y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k4dmn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_11axu")
+}],
+"loop": true,
+"name": &"bark_east",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_woq1m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lo0gw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tp47o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t1bc5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ldbpx")
+}],
+"loop": true,
+"name": &"bark_north",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8de56")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l8gbh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_beiti")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a7edo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0da2w")
+}],
+"loop": true,
+"name": &"bark_south",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sss0n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hr6dw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6xmm1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0h6aw")
+}],
+"loop": true,
+"name": &"bark_west",
 "speed": 5.0
 }, {
 "frames": [{
@@ -410,7 +556,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_poh4s")
 }],
-"loop": true,
+"loop": false,
 "name": &"death_east",
 "speed": 5.0
 }, {
@@ -427,7 +573,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_m6kdc")
 }],
-"loop": true,
+"loop": false,
 "name": &"death_north",
 "speed": 5.0
 }, {
@@ -444,7 +590,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_i0uyp")
 }],
-"loop": true,
+"loop": false,
 "name": &"death_south",
 "speed": 5.0
 }, {
@@ -461,7 +607,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_j7nrs")
 }],
-"loop": true,
+"loop": false,
 "name": &"death_west",
 "speed": 5.0
 }, {
@@ -672,7 +818,7 @@ script = ExtResource("1_na34h")
 
 [node name="t1_wolf_sprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_4y6qf")
-animation = &"attack_west"
+animation = &"death_south"
 
 [node name="hurtbox_area" type="Area2D" parent="t1_wolf_sprite"]
 
