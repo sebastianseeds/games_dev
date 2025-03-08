@@ -192,6 +192,9 @@ func update_animation_speed():
 var last_frame_keys = {}
 
 func _process(delta):
+	if is_dead:
+		return  # Don't process anything else if dead
+	
 	handle_input()
 	update_animation()
 	move_and_slide()
@@ -430,7 +433,7 @@ func create_weapon_hitbox():
 func _on_weapon_hitbox_body_entered(body):
 	# Check if the body is an enemy
 	if body.is_in_group("enemies") or body.name.begins_with("base_animal_enemy") or body.name.begins_with("base_humanoid_enemy") or body.name.begins_with("base_monster_enemy"):
-		print("Hit enemy: " + body.name)
+		print("!!!!!!!!   Hit enemy: " + body.name)
 		
 		# Get damage calculation from weapon system
 		var damage_info = weapon_system.calculate_weapon_damage(equipped_weapon, stats)
@@ -487,11 +490,15 @@ func cycle_weapons():
 var health = 100
 var max_health = 100
 var gold = 50
+var is_dead = false
 var is_poisoned = false
 var is_bleeding = false
 
 # Take damage
 func take_damage(amount: int):
+	if stats.current_hp <= 0 or is_dead:  # Already dead
+		return
+		
 	stats.take_damage(amount)
 	
 	# Check for death
@@ -509,8 +516,24 @@ func heal(amount: int):
 
 # Die (game over)
 func die():
+	is_dead = true
 	print("Player died!")
-	# Implement game over logic here
+	
+	# Disable movement
+	velocity = Vector2.ZERO
+	# Stop processing input
+	set_process_input(false)
+	
+	# Play death animation if it exists
+	var death_anim = "death_south"
+	if anim.sprite_frames.has_animation(death_anim):
+		anim.play(death_anim)
+	else:
+		# Fallback to idle animation if no death animation exists
+		anim.play("idle_" + facing_direction)
+	
+	# Optional: change player appearance to indicate death
+	modulate = Color(0.5, 0.5, 0.5)  # Gray out the player
 
 # Get gold amount
 func get_gold() -> int:

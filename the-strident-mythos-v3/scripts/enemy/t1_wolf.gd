@@ -122,6 +122,14 @@ func start_attack():
 	if not player:
 		state = "idle"
 		return
+
+	# Better player death check
+	if "is_dead" in player and player.is_dead:
+		print("Wolf: Player is dead, canceling attack")
+		state = "idle"
+		idle_timer = randf_range(min_idle_time, max_idle_time)
+		return
+		
 		
 	print("Wolf: Starting new attack sequence in start_attack()")
 	
@@ -289,6 +297,7 @@ func _ready():
 	# Ensure we're added to the enemies group for attack detection
 	if not is_in_group("enemies"):
 		add_to_group("enemies")
+		print("Added wolf to enemies group")
 		
 	# Print all animation names at startup
 	print("Wolf: Available animations at startup: " + str(anim.sprite_frames.get_animation_names()))
@@ -320,6 +329,14 @@ func calculate_max_health():
 func _process(delta):
 	if is_dead:
 		return
+	
+	# Check if player exists and is dead
+	if player and "is_dead" in player and player.is_dead:
+		# If player is dead, return to normal behavior
+		if state == "chasing" or state == "attacking" or state == "attacking_playing" or state == "cooldown" or state == "retreating":
+			print("Wolf: Player is dead, returning to normal behavior")
+			state = "idle"
+			idle_timer = randf_range(min_idle_time, max_idle_time)
 	
 	# Debug animations
 	if OS.is_debug_build() and Input.is_key_pressed(KEY_F1):
@@ -406,6 +423,10 @@ func detect_player():
 	if not player:
 		return
 	
+	# Don't chase dead player
+	if "is_dead" in player and player.is_dead:
+		return
+	
 	var distance = global_position.distance_to(player.global_position)
 	
 	if is_hostile and distance < detection_range:
@@ -416,6 +437,13 @@ func detect_player():
 func chase_player(delta):
 	if not player:
 		state = "idle"
+		return
+	
+	# Add check for player death
+	if "is_dead" in player and player.is_dead:
+		print("Wolf: Player is dead, stopping chase")
+		state = "idle"
+		idle_timer = randf_range(min_idle_time, max_idle_time)
 		return
 	
 	var distance = global_position.distance_to(player.global_position)
@@ -489,6 +517,13 @@ func die():
 func retreat_from_player(delta):
 	if not player:
 		state = "idle"
+		return
+
+	# Add better player death check
+	if "is_dead" in player and player.is_dead:
+		print("Wolf: Player is dead, stopping retreat")
+		state = "idle"
+		idle_timer = randf_range(min_idle_time, max_idle_time)
 		return
 
 	# Move away from player
