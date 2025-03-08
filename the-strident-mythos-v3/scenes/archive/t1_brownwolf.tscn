@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://cvwlvokptjuri"]
+
+[ext_resource type="PackedScene" uid="uid://belqmiveaequm" path="res://scenes/archive/base_animal_enemy.tscn" id="1_7wy6t"]
+[ext_resource type="Script" path="res://scripts/archive/t1_brownwolf.gd" id="2_uniym"]
+
+[node name="base_animal_enemy" instance=ExtResource("1_7wy6t")]
+script = ExtResource("2_uniym")

@@ -84,7 +84,7 @@ func calculate_derived_stats():
 	var dex_mod = get_ability_modifier(dexterity)
 	
 	# Calculate max HP (based on level and constitution)
-	max_hp = 10 + (level - 1) * (6 + con_mod)  # Assuming d6 hit die + con mod per level
+	max_hp = 10 + (level) * (6 + con_mod)  # Assuming d6 hit die + con mod per level
 	
 	# Calculate AC (10 + dex modifier by default)
 	armor_class = 10 + dex_mod

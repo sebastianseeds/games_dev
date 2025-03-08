@@ -55,6 +55,8 @@ var greeting_questions = [
 @onready var dialogue_manager = get_node_or_null("/root/Main/UI/UIRoot/DialogueManager")
 
 func _ready():
+	print("NPC: Starting _ready function for " + name)
+	
 	# Previous initialization code remains the same
 	if interaction_area == null:
 		print("🚨 WARNING: interaction_area was null in onready, trying to get it explicitly")
@@ -108,6 +110,8 @@ func _ready():
 		", INT " + str(stats.intelligence) + 
 		", Medicine +" + str(stats.get_skill_modifier("medicine")))
 	anim.play("idle_" + facing_direction)
+	
+	print("NPC: _ready function completed for " + name)
 
 # The existing _process function remains largely the same
 func _process(delta):

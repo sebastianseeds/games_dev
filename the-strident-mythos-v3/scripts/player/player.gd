@@ -23,6 +23,7 @@ var stamina_exhausted = false  # Flag for exhaustion state
 # Attack variables
 var can_attack = true
 var attack_cooldown = 0.5  # Half a second between attacks
+var base_attack_cooldown = 0.5  # Base cooldown in seconds between attacks
 var attack_cooldown_timer = 0.0  # Timer to track cooldown
 var attack_damage = 10
 var is_attacking = false
@@ -63,8 +64,27 @@ func _ready():
 		add_to_group("players")
 		print("✅ Added player to 'players' group")
 	
-	# Try to get dialogue_manager
+	# Right before attempting to get dialogue_manager
+	print("Player: About to get dialogue_manager at path: /root/Main/UI/UIRoot/DialogueManager")
+	# Try to get dialogue_manager with multiple possible paths
+	
+	if has_node("/root/Main/UI/UIRoot/DialogueManager"):
+		print("DialogueManager exists at /root/Main/UI/UIRoot/DialogueManager")
+	else:
+		print("DialogueManager NOT found at /root/Main/UI/UIRoot/DialogueManager")
+
+	
 	dialogue_manager = get_node_or_null("/root/Main/UI/UIRoot/DialogueManager")
+	#if dialogue_manager == null:
+	#	dialogue_manager = get_node_or_null("/root/Main/UI/UIRoot/DialogueBox") # Alternative path
+	#if dialogue_manager == null:
+	#	print("Note: DialogueManager not found - dialogue features will be disabled")
+
+	call_deferred("init_dialogue_manager")
+
+	# After attempting to get dialogue_manager
+	print("Player: dialogue_manager search result: " + str(dialogue_manager))
+	# Don't throw an error since dialogue is optional for player functionality
 	if dialogue_manager == null:
 		push_error("Player: DialogueManager not found!")
 		print("🚨 ERROR: DialogueManager not found!")
@@ -89,6 +109,26 @@ func _ready():
 		", INT " + str(stats.intelligence) + 
 		", WIS " + str(stats.wisdom) + 
 		", CHA " + str(stats.charisma))
+		
+	print("Scene tree structure:")
+	print_scene_tree(get_tree().root)
+
+func init_dialogue_manager():
+	print("Player: About to get dialogue_manager at path: /root/Main/UI/UIRoot/DialogueManager")
+	dialogue_manager = get_node_or_null("/root/Main/UI/UIRoot/DialogueManager")
+	if dialogue_manager == null:
+		dialogue_manager = get_node_or_null("/root/Main/UI/UIRoot/DialogueBox")
+	if dialogue_manager == null:
+		print("Note: DialogueManager not found - dialogue features will be disabled")
+		push_error("Player: DialogueManager not found!")
+	else:
+		print("✅ DialogueManager found")
+
+# Then add this function outside _ready(), at the class level
+func print_scene_tree(node, indent=""):
+	print(indent + node.name + " (" + node.get_class() + ")")
+	for child in node.get_children():
+		print_scene_tree(child, indent + "  ")
 
 func _on_animation_finished():
 	# Check if we just finished an attack animation

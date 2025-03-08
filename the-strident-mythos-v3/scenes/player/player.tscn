@@ -1,4 +1,4 @@
-[gd_scene load_steps=190 format=3 uid="uid://c22ul6cilwelg"]
+[gd_scene load_steps=191 format=3 uid="uid://c22ul6cilwelg"]
 
 [ext_resource type="Texture2D" uid="uid://bumibvf8fmlqj" path="res://assets/sprites/player/player_default.png" id="1_ek5ai"]
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_no2gp"]
@@ -764,7 +764,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_cj88y")
 }],
-"loop": true,
+"loop": false,
 "name": &"attack_slash_east",
 "speed": 5.0
 }, {
@@ -787,7 +787,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_r5rr1")
 }],
-"loop": true,
+"loop": false,
 "name": &"attack_slash_north",
 "speed": 5.0
 }, {
@@ -810,7 +810,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ljpyd")
 }],
-"loop": true,
+"loop": false,
 "name": &"attack_slash_south",
 "speed": 5.0
 }, {
@@ -833,7 +833,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_iyw28")
 }],
-"loop": true,
+"loop": false,
 "name": &"attack_slash_west",
 "speed": 5.0
 }, {
@@ -862,7 +862,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ftqvn")
 }],
-"loop": true,
+"loop": false,
 "name": &"attack_thrust_east",
 "speed": 5.0
 }, {
@@ -891,7 +891,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_oyj8t")
 }],
-"loop": true,
+"loop": false,
 "name": &"attack_thrust_north",
 "speed": 5.0
 }, {
@@ -920,7 +920,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ah5a1")
 }],
-"loop": true,
+"loop": false,
 "name": &"attack_thrust_south",
 "speed": 5.0
 }, {
@@ -949,7 +949,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_xmafm")
 }],
-"loop": true,
+"loop": false,
 "name": &"attack_thrust_west",
 "speed": 5.0
 }, {
@@ -975,7 +975,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_3uhl4")
 }],
-"loop": true,
+"loop": false,
 "name": &"cast_east",
 "speed": 5.0
 }, {
@@ -1001,7 +1001,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_8bx1w")
 }],
-"loop": true,
+"loop": false,
 "name": &"cast_north",
 "speed": 5.0
 }, {
@@ -1027,7 +1027,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_xrucf")
 }],
-"loop": true,
+"loop": false,
 "name": &"cast_south",
 "speed": 5.0
 }, {
@@ -1053,7 +1053,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_lcart")
 }],
-"loop": true,
+"loop": false,
 "name": &"cast_west",
 "speed": 5.0
 }, {
@@ -1076,7 +1076,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ycu2g")
 }],
-"loop": true,
+"loop": false,
 "name": &"death_south",
 "speed": 5.0
 }, {
@@ -1122,7 +1122,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_1ifik")
 }],
-"loop": true,
+"loop": false,
 "name": &"kneel_south",
 "speed": 5.0
 }, {
@@ -1166,7 +1166,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_q1xru")
 }],
-"loop": true,
+"loop": false,
 "name": &"shoot_east",
 "speed": 5.0
 }, {
@@ -1210,7 +1210,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_dsgc7")
 }],
-"loop": true,
+"loop": false,
 "name": &"shoot_north",
 "speed": 5.0
 }, {
@@ -1254,7 +1254,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_8104y")
 }],
-"loop": true,
+"loop": false,
 "name": &"shoot_south",
 "speed": 5.0
 }, {
@@ -1298,7 +1298,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_sfx6n")
 }],
-"loop": true,
+"loop": false,
 "name": &"shoot_west",
 "speed": 5.0
 }, {
@@ -1434,12 +1434,15 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_462o7"]
 size = Vector2(22, 44)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_arwnh"]
+radius = 36.0
+
 [node name="player" type="CharacterBody2D"]
 script = ExtResource("1_no2gp")
 
 [node name="player_sprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_guf2c")
-animation = &"attack_slash_north"
+animation = &"walk_east"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 2)
@@ -1447,3 +1450,9 @@ shape = SubResource("RectangleShape2D_462o7")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(3, 3)
+
+[node name="InteractionArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="InteractionArea"]
+position = Vector2(0, 5)
+shape = SubResource("CircleShape2D_arwnh")

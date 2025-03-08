@@ -1,6 +1,6 @@
 [gd_scene load_steps=162 format=3 uid="uid://c4rv5e7miyg2e"]
 
-[ext_resource type="Script" path="res://scripts/enemy/t2_dagger_bandit.gd" id="1_lcypg"]
+[ext_resource type="Script" path="res://scripts/archive/t2_dagger_bandit.gd" id="1_lcypg"]
 [ext_resource type="Texture2D" uid="uid://b43ktuyj1cjbl" path="res://assets/sprites/enemies/archive/base_humanoid_enemy.png" id="2_6yswa"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_o0mmo"]

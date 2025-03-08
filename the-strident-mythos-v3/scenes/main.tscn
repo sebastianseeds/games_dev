@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://gtfcsmeqge6l"]
+[gd_scene load_steps=7 format=3 uid="uid://gtfcsmeqge6l"]
 
 [ext_resource type="PackedScene" uid="uid://c22ul6cilwelg" path="res://scenes/player/player.tscn" id="1_ne7i4"]
 [ext_resource type="Script" path="res://scripts/rpg/dialogue_manager.gd" id="2_4v88y"]
 [ext_resource type="PackedScene" uid="uid://b25jm5b0albnx" path="res://scenes/npc/villager_adam_florien.tscn" id="3_3mo1r"]
 [ext_resource type="Script" path="res://scripts/player_stats.gd" id="4_3iwon"]
+[ext_resource type="PackedScene" uid="uid://c5s8nsy50voka" path="res://scenes/enemy/t1_wolf.tscn" id="5_rdsxy"]
 
 [sub_resource type="SystemFont" id="SystemFont_p6wsi"]
 
@@ -11,12 +12,16 @@
 position = Vector2(151, 87)
 
 [node name="World" type="Node2D" parent="."]
+y_sort_enabled = true
 
 [node name="player" parent="World" instance=ExtResource("1_ne7i4")]
 position = Vector2(147, 61)
 
 [node name="adam_florien" parent="World" instance=ExtResource("3_3mo1r")]
 position = Vector2(195, 60)
+
+[node name="t1_wolf" parent="World" instance=ExtResource("5_rdsxy")]
+position = Vector2(0, 76)
 
 [node name="UI" type="CanvasLayer" parent="."]
 
@@ -115,10 +120,25 @@ script = ExtResource("4_3iwon")
 
 [node name="StaminaBar" type="ProgressBar" parent="UI/UIRoot/PlayerStats"]
 layout_mode = 0
-offset_right = 4.0
+offset_top = 27.0
+offset_right = 77.0
+offset_bottom = 54.0
+
+[node name="HealthBar" type="ProgressBar" parent="UI/UIRoot/PlayerStats"]
+layout_mode = 0
+offset_right = 77.0
 offset_bottom = 27.0
 
 [node name="StaminaLabel" type="Label" parent="UI/UIRoot/PlayerStats"]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+offset_left = 78.0
+offset_top = 2.0
+offset_right = 138.0
+offset_bottom = 25.0
+
+[node name="HealthLabel" type="Label" parent="UI/UIRoot/PlayerStats"]
+layout_mode = 0
+offset_left = 78.0
+offset_top = 29.0
+offset_right = 138.0
+offset_bottom = 53.0

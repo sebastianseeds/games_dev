@@ -1,7 +1,8 @@
-[gd_scene load_steps=87 format=3 uid="uid://belqmiveaequm"]
+[gd_scene load_steps=88 format=3 uid="uid://belqmiveaequm"]
 
 [ext_resource type="Script" path="res://scripts/archive/base_animal_enemy.gd" id="1_y05kd"]
 [ext_resource type="Texture2D" uid="uid://skd6n5gytfml" path="res://assets/sprites/enemies/enemy_t1_wolf_edit.png" id="2_mwght"]
+[ext_resource type="Script" path="res://scripts/enemy/t1_wolf.gd" id="3_wi4qj"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wt6us"]
 atlas = ExtResource("2_mwght")
@@ -673,6 +674,7 @@ script = ExtResource("1_y05kd")
 [node name="base_animal_enemy_sprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_4y6qf")
 animation = &"attack_west"
+script = ExtResource("3_wi4qj")
 
 [node name="hurtbox_area" type="Area2D" parent="base_animal_enemy_sprite"]
 
