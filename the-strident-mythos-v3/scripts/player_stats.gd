@@ -7,6 +7,17 @@ extends Control
 @onready var player = get_node("/root/Main/World/player")  # Adjust this path to match your scene structure
 
 func _ready():
+	print("Stamina bar node:", stamina_bar)
+	print("Health bar node:", health_bar)
+	
+	if stamina_bar != null:
+		print("Stamina bar class:", stamina_bar.get_class())
+		print("Initial stamina bar values - min:", stamina_bar.min_value, "max:", stamina_bar.max_value)
+
+	if health_bar != null:
+		print("Health bar class:", health_bar.get_class())
+		print("Initial health bar values - min:", health_bar.min_value, "max:", health_bar.max_value)
+	
 	if player == null:
 		player = get_node("/root/Main/player")  # Alternative path
 		
@@ -19,9 +30,10 @@ func _ready():
 func _process(_delta):
 	if player == null:
 		return
-		
+	
 	# Update stamina display
 	if stamina_bar != null:
+		print("Setting stamina bar value to:", player.current_stamina, "/", player.max_stamina)
 		stamina_bar.value = player.current_stamina
 		stamina_bar.max_value = player.max_stamina
 		
@@ -39,8 +51,7 @@ func _process(_delta):
 			
 	# Update health display
 	if health_bar != null:
-		# Assuming your player uses stats.current_hp and stats.max_hp
-		# If you store health differently (like player.health / player.max_health), just adjust accordingly.
+		print("Setting health bar value to:", player.stats.current_hp, "/", player.stats.max_hp)
 		health_bar.value = player.stats.current_hp
 		health_bar.max_value = player.stats.max_hp
 

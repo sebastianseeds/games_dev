@@ -120,14 +120,14 @@ script = ExtResource("4_3iwon")
 
 [node name="StaminaBar" type="ProgressBar" parent="UI/UIRoot/PlayerStats"]
 layout_mode = 0
-offset_top = 27.0
 offset_right = 77.0
-offset_bottom = 54.0
+offset_bottom = 27.0
 
 [node name="HealthBar" type="ProgressBar" parent="UI/UIRoot/PlayerStats"]
 layout_mode = 0
+offset_top = 27.0
 offset_right = 77.0
-offset_bottom = 27.0
+offset_bottom = 54.0
 
 [node name="StaminaLabel" type="Label" parent="UI/UIRoot/PlayerStats"]
 layout_mode = 0
