@@ -255,7 +255,7 @@ var home_position := Vector2.ZERO  # Original spawn position
 var is_barking := false
 var bark_check_timer := 0.0  # Timer for periodic bark checks while idle
 
-func _ready():
+func _ready():	
 	stats = CharacterStats.new()
 	stats.set_ability_scores(
 		10,  # STR
@@ -327,6 +327,8 @@ func calculate_max_health():
 
 
 func _process(delta):
+	#print("Wolf: Is in enemies group: " + str(is_in_group("enemies")))
+	
 	if is_dead:
 		return
 	
@@ -501,18 +503,23 @@ func die():
 	
 	# Play death animation if available
 	var facing_dir = get_facing_direction(Vector2.ZERO)
-	if anim.has_animation("death_" + facing_dir):
+	if anim.sprite_frames.has_animation("death_" + facing_dir):
 		anim.play("death_" + facing_dir)
 	else:
 		# Default to idle animation if no death animation
 		anim.play("idle_" + facing_dir)
 	
-	# Disable collision
-	$CollisionShape2D.set_deferred("disabled", true)
+	# Disable all hurtboxes instead of trying to disable a non-existent collision shape
+	disable_all_hurtboxes()
+	
+	# Optional: Disable the entire hurtbox area to prevent any interactions
+	if hurtbox_area:
+		hurtbox_area.set_deferred("monitoring", false)
+		hurtbox_area.set_deferred("monitorable", false)
 	
 	# Remove after a delay
-	await get_tree().create_timer(1.0).timeout
-	queue_free()
+	#await get_tree().create_timer(1.0).timeout
+	#queue_free()
 
 func retreat_from_player(delta):
 	if not player:

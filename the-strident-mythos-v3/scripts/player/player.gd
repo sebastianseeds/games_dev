@@ -412,6 +412,7 @@ func create_weapon_hitbox():
 	
 	# Connect signal to handle enemy hit
 	hitbox.connect("body_entered", _on_weapon_hitbox_body_entered)
+	hitbox.connect("area_entered", _on_weapon_hitbox_area_entered)
 	
 	# Create debug visualization if enabled
 	if debug_show_hitboxes:
@@ -429,8 +430,44 @@ func create_weapon_hitbox():
 	if debug_hitbox_node:
 		debug_hitbox_node.queue_free()
 		debug_hitbox_node = null
+		
+	print("Created weapon hitbox: Position=" + str(hitbox.global_position) + 
+	  ", Size=" + str(hitbox_data.size) + 
+	  ", Direction=" + facing_direction)
+
+func _on_weapon_hitbox_area_entered(area):
+	# Check if this is an enemy hurtbox area
+	if area.name == "hurtbox_area":
+		# Get the enemy (parent of the hurtbox area)
+		var enemy = area.get_parent().get_parent()  # Assuming hurtbox_area is child of sprite which is child of enemy
+		
+		print("Hit enemy hurtbox: " + enemy.name)
+		
+		# Get damage calculation from weapon system
+		var damage_info = weapon_system.calculate_weapon_damage(equipped_weapon, stats)
+		var final_damage = damage_info.damage
+		
+		# Check for critical hit
+		var is_critical = randf() < damage_info.crit_chance
+		if is_critical:
+			final_damage = int(final_damage * (1.0 + damage_info.crit_bonus))
+			print("Critical hit! (" + str(final_damage) + " damage)")
+		
+		# Apply damage to enemy
+		if enemy.has_method("take_damage"):
+			enemy.take_damage(final_damage)
+			
+			# Some enemies might have additional damage type method
+			if enemy.has_method("take_typed_damage"):
+				enemy.take_typed_damage(final_damage, equipped_weapon.damage_type)
+		
+		# Process weapon effects
+		weapon_system.process_weapon_effects(equipped_weapon, enemy, stats)
 
 func _on_weapon_hitbox_body_entered(body):
+	
+	print("Hitbox collided with: " + body.name + ", Groups: " + str(body.get_groups()))
+	
 	# Check if the body is an enemy
 	if body.is_in_group("enemies") or body.name.begins_with("base_animal_enemy") or body.name.begins_with("base_humanoid_enemy") or body.name.begins_with("base_monster_enemy"):
 		print("!!!!!!!!   Hit enemy: " + body.name)
